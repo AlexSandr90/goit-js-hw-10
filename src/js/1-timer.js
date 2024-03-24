@@ -2,7 +2,6 @@ import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
-import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
 import { convertMs } from './helpers';
 
 const startButton = document.querySelector('button[data-start]');
