@@ -16,7 +16,7 @@ const fulfilledTrigger = () => {
 
 const promiseDelay = (delay, promiseFunc) => {
   const timeoutId = setTimeout(() => {
-    if (promiseFunc === 'rejeckted') {
+    if (promiseFunc === 'fulfilled') {
       fulfilledTrigger()
         .then(() => {
           iziToast.success({
@@ -28,7 +28,7 @@ const promiseDelay = (delay, promiseFunc) => {
         })
         .finally(() => clearTimeout(timeoutId));
     }
-    if (promiseFunc === 'fulfilled') {
+    if (promiseFunc === 'rejected') {
       rejectedTrigger()
         .catch(() => {
           iziToast.error({
@@ -46,13 +46,17 @@ const promiseDelay = (delay, promiseFunc) => {
 const handleSubmit = event => {
   event.preventDefault();
   const form = event.target;
-  console.log(Number(delay.value));
+  console.log({
+    fulfilledRadio: fulfilledRadio.checked,
+    rejectedRadio: rejectedRadio.checked,
+    delay: Number(delay.value),
+  });
 
-  if (rejectedRadio.checked) {
+  if (fulfilledRadio.checked) {
     promiseDelay(Number(delay.value), 'fulfilled');
   }
-  if (fulfilledRadio.checked) {
-    promiseDelay(Number(delay.value), 'rejeckted');
+  if (rejectedRadio.checked) {
+    promiseDelay(Number(delay.value), 'rejected');
   }
 
   form.reset();
