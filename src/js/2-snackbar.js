@@ -22,7 +22,10 @@ const promiseDelay = (delay, promiseFunc) => {
           iziToast.success({
             message: `Fulfilled promise in ${delay}ms`,
             position: 'topRight',
+            messageColor: '#ffffff',
+            backgroundColor: 'green',
             timeout: 5000,
+            close: false,
           });
           console.log('Fulfilled!!!');
         })
@@ -34,7 +37,10 @@ const promiseDelay = (delay, promiseFunc) => {
           iziToast.error({
             message: `Rejected promise in ${delay}ms`,
             position: 'topRight',
+            messageColor: '#ffffff',
+            backgroundColor: '#FF2E2E',
             timeout: 5000,
+            close: false,
           });
           console.log('rejected!!!!');
         })
@@ -46,11 +52,6 @@ const promiseDelay = (delay, promiseFunc) => {
 const handleSubmit = event => {
   event.preventDefault();
   const form = event.target;
-  console.log({
-    fulfilledRadio: fulfilledRadio.checked,
-    rejectedRadio: rejectedRadio.checked,
-    delay: Number(delay.value),
-  });
 
   if (fulfilledRadio.checked) {
     promiseDelay(Number(delay.value), 'fulfilled');
