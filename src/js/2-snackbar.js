@@ -6,47 +6,38 @@ const delay = document.querySelector('input[name="delay"]');
 const fulfilledRadio = document.querySelector('input[value="fulfilled"]');
 const rejectedRadio = document.querySelector('input[value="rejected"]');
 
-const rejectedTrigger = () => {
-  return Promise.reject();
-};
-
-const fulfilledTrigger = () => {
-  return Promise.resolve();
+const toastSettings = {
+  position: 'topRight',
+  messageColor: '#ffffff',
+  timeout: 5000,
+  close: false,
+  radius: 15,
 };
 
 const promiseDelay = (delay, promiseFunc) => {
-  const timeoutId = setTimeout(() => {
-    if (promiseFunc === 'fulfilled') {
-      fulfilledTrigger()
-        .then(() => {
-          iziToast.show({
-            message: `✅ Fulfilled promise in ${delay}ms`,
-            position: 'topRight',
-            messageColor: '#ffffff',
-            backgroundColor: 'green',
-            timeout: 5000,
-            close: false,
-            radius: 15,
-          });
-        })
-        .finally(() => clearTimeout(timeoutId));
-    }
-    if (promiseFunc === 'rejected') {
-      rejectedTrigger()
-        .catch(() => {
-          iziToast.show({
-            message: `❌ Rejected promise in ${delay}ms`,
-            position: 'topRight',
-            messageColor: '#ffffff',
-            backgroundColor: '#FF2E2E',
-            timeout: 5000,
-            close: false,
-            radius: 15,
-          });
-        })
-        .finally(() => clearTimeout(timeoutId));
-    }
-  }, delay);
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      promiseFunc === 'fulfilled' ? resolve() : reject();
+    }, delay);
+  });
+};
+
+const handlePromise = (delay, promiseFunc) => {
+  promiseDelay(delay, promiseFunc)
+    .then(() => {
+      iziToast.show({
+        ...toastSettings,
+        message: `✅ Fulfilled promise in ${delay}ms`,
+        backgroundColor: 'green',
+      });
+    })
+    .catch(() => {
+      iziToast.show({
+        ...toastSettings,
+        message: `❌ Rejected promise in ${delay}ms`,
+        backgroundColor: '#FF2E2E',
+      });
+    });
 };
 
 const handleSubmit = event => {
@@ -54,10 +45,10 @@ const handleSubmit = event => {
   const form = event.target;
 
   if (fulfilledRadio.checked) {
-    promiseDelay(Number(delay.value), 'fulfilled');
+    handlePromise(Number(delay.value), 'fulfilled');
   }
   if (rejectedRadio.checked) {
-    promiseDelay(Number(delay.value), 'rejected');
+    handlePromise(Number(delay.value), 'rejected');
   }
 
   form.reset();
