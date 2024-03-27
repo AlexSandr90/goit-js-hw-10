@@ -19,30 +19,30 @@ const promiseDelay = (delay, promiseFunc) => {
     if (promiseFunc === 'fulfilled') {
       fulfilledTrigger()
         .then(() => {
-          iziToast.success({
-            message: `Fulfilled promise in ${delay}ms`,
+          iziToast.show({
+            message: `✅ Fulfilled promise in ${delay}ms`,
             position: 'topRight',
             messageColor: '#ffffff',
             backgroundColor: 'green',
             timeout: 5000,
             close: false,
+            radius: 15,
           });
-          console.log('Fulfilled!!!');
         })
         .finally(() => clearTimeout(timeoutId));
     }
     if (promiseFunc === 'rejected') {
       rejectedTrigger()
         .catch(() => {
-          iziToast.error({
-            message: `Rejected promise in ${delay}ms`,
+          iziToast.show({
+            message: `❌ Rejected promise in ${delay}ms`,
             position: 'topRight',
             messageColor: '#ffffff',
             backgroundColor: '#FF2E2E',
             timeout: 5000,
             close: false,
+            radius: 15,
           });
-          console.log('rejected!!!!');
         })
         .finally(() => clearTimeout(timeoutId));
     }
