@@ -10,7 +10,6 @@ const daysField = document.querySelector('span[data-days]');
 const hoursField = document.querySelector('span[data-hours]');
 const minutesField = document.querySelector('span[data-minutes]');
 const secondsField = document.querySelector('span[data-seconds]');
-const dateNow = new Date();
 
 let selectedDate;
 
@@ -48,7 +47,7 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     selectedDate = selectedDates[0].getTime();
-    let difDate = selectedDate - dateNow.getTime();
+    let difDate = selectedDate - new Date().getTime();
     if (difDate <= 0) {
       iziToast.error({
         message: 'Please choose a date in the future',
